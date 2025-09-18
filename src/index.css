@@ -1,0 +1,89 @@
+/* index.css (Tailwind v4) */
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* variante de tema escuro moderna */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tokens do tema (cores, fontes, breakpoints) */
+@theme {
+  --font-roboto: "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-pop: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-checkRegular: "checkRegular", ui-sans-serif, system-ui, sans-serif;
+
+  --color-section: #f8fcff;
+  --color-offwhite: #f2f2f2;
+  --color-offblack: #4a4a4a;
+  --color-back: #ffffff;
+
+  /* Breakpoints usados pelas variantes sm:, md:, etc. */
+  --breakpoint-sm: 40rem;  /* 640px  */
+  --breakpoint-md: 48rem;  /* 768px  */
+  --breakpoint-lg: 64rem;  /* 1024px */
+  --breakpoint-xl: 80rem;  /* 1280px */
+}
+
+/* Container custom sem @screen (v4 usa media queries nativas) */
+@layer components {
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem; /* padding padrão */
+  }
+
+  @media (width >= 40rem) { /* sm */
+    .container { max-width: 40rem; }
+  }
+  @media (width >= 48rem) { /* md */
+    .container {
+      max-width: 48rem;
+      padding-inline: 0; /* seu requisito de tirar padding no md+ */
+    }
+  }
+  @media (width >= 64rem) { /* lg */
+    .container { max-width: 64rem; }
+  }
+  @media (width >= 80rem) { /* xl */
+    .container { max-width: 80rem; }
+  }
+}
+
+body {
+  @apply min-h-screen text-white;
+  background: linear-gradient(
+    135deg,
+    #000000 0%,     /* preto absoluto */
+    #050505 25%,    /* preto suave */
+    #0d0d0f 50%,    /* cinza quase preto */
+    #0a0f1a 75%,    /* azul grafite bem fechado */
+    #0a1625 100%    /* azul escuro profundo */
+  );
+  background-attachment: fixed;
+}
+
+/* Glow super sutil só pra dar vida */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+                circle at 30% 20%,
+                rgba(20, 80, 200, 0.12),
+                transparent 70%
+              ),
+              radial-gradient(
+                circle at 70% 80%,
+                rgba(0, 102, 204, 0.08),
+                transparent 70%
+              );
+  filter: blur(120px);
+}
+
+body {
+  scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
