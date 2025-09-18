@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Lenis from "lenis"
 
-import "./App.css"
+// import "./App.css"
 import Header from "./components/header"
 import { HeroSection } from "./components/hero-section"
 import FeaturesAndWallet from "./components/FeaturesAndWallet"
