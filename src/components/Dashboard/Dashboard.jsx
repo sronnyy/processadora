@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { TrendingUp, Lock, Wallet, ReceiptText, ArrowDownToLine, QrCode, FileText, AlertTriangle, ChevronRight, Download, BarChart3, CreditCard, Users, Calendar } from "lucide-react";
+import { TrendingUp, Lock, Wallet, ReceiptText, ArrowDownToLine, QrCode, FileText, AlertTriangle, ChevronRight, Download, BarChart3, CreditCard, Users, Calendar, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Dashboard() {
@@ -12,15 +12,30 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 relative z-10">
         {/* Header */}
         <motion.header 
-          className="mb-8"
+          className="mb-8 flex items-center justify-between gap-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Dashboard
-          </h1>
-          <p className="text-white/60 mt-2">Visão geral das suas operações financeiras</p>
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+            <p className="text-white/60 mt-2">Visão geral das suas operações financeiras</p>
+          </div>
+
+          {/* Botão de voltar para / (apenas borda) */}
+          <Link to="/" className="shrink-0">
+            <motion.button
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white
+                         border border-white/15 bg-transparent hover:bg-white/5 transition-all"
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Voltar 
+            </motion.button>
+          </Link>
         </motion.header>
 
         {/* Alerta de verificação */}
@@ -217,7 +232,7 @@ function KPI({ label, value, icon, delta, deltaTone = "pos", color = "blue" }) {
           {icon}
         </div>
       </div>
-      <div className={`flex items-center gap-2 text-xs font-medium ${deltaTone === "pos" ? "text-emerald-400" : "text-rose-400"}`}>
+      <div className={`flex items中心 gap-2 text-xs font-medium ${deltaTone === "pos" ? "text-emerald-400" : "text-rose-400"}`}>
         <div className={`w-5 h-5 grid place-items-center rounded-lg ${deltaTone === "pos" ? "bg-emerald-400/15" : "bg-rose-400/15"}`}>
           {deltaTone === "pos" ? "↑" : "↓"}
         </div>
