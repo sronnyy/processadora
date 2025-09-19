@@ -35,12 +35,10 @@ export default function FeaturesAndWallet() {
 
   return (
     <section id="recursos" className="py-20 relative overflow-visible">
-      {/* fundos discretos */}
       <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-500/5 to-transparent -z-10" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-l from-emerald-500/5 to-transparent rounded-full blur-3xl -z-10" />
 
       <div className="max-w-7xl mx-auto px-4">
-        {/* título */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -61,9 +59,7 @@ export default function FeaturesAndWallet() {
           </p>
         </motion.div>
 
-        {/* grid principal: agora a direita tem mais fração */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-10 items-start">
-          {/* esquerda (cards) — limite um pouco menor para abrir espaço à direita */}
           <motion.div
             className="space-y-5 w-full lg:max-w-[640px]"
             variants={containerVariants}

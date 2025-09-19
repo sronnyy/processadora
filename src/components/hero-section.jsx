@@ -1,138 +1,127 @@
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Shield, Zap, Clock, CheckCircle } from "lucide-react"
-import heroImg from "@/assets/image.png"
+// src/components/hero-section.jsx
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Zap, CheckCircle } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+
+/** Coluna que desliza verticalmente (loop infinito) */
+function VerticalMarquee({ items, direction = "up", duration = 22, delay = 0, className = "" }) {
+  const prefersReduced = useReducedMotion();
+  const keyframes = direction === "up" ? ["0%", "-50%"] : ["-50%", "0%"];
+
+  return (
+    <div className={`relative overflow-hidden ${className}`} aria-hidden>
+      {/* fades de topo/rodapé */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-16 sm:h-20 bg-gradient-to-b from-black/65 to-transparent z-20" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-black/65 to-transparent z-20" />
+
+      <motion.div
+        className="flex flex-col gap-5"
+        animate={prefersReduced ? undefined : { y: keyframes }}
+        transition={prefersReduced ? undefined : { duration, ease: "linear", repeat: Infinity, repeatType: "loop", delay }}
+      >
+        {[...items, ...items].map((card, i) => (
+          <div
+            key={`${card.src}-${i}`}
+            className="relative aspect-[3/4] w-68   overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur-sm"
+          >
+            <img src={card.src} alt={card.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/75 via-black/20 to-transparent">
+              <p className="text-sm font-semibold text-white">{card.name}</p>
+              {card.meta && <p className="text-xs text-white/70">{card.meta}</p>}
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
 export function HeroSection() {
-  return (
-    <section className="relative py-28 overflow-hidden">
-      <div className="container max-w-6xl relative grid grid-cols-1 md:grid-cols-2 items-center gap-20">
-        {/* Coluna Esquerda - Texto */}
-        <div className="flex flex-col">
-          {/* Badge Premium */}
-          <div className="mb-8">
-            <span className="inline-flex items-center rounded-full bg-gray-50 border border-gray-200 px-5 py-3 text-base font-medium text-gray-700 shadow-sm hover:shadow-md transition-shadow">
-              <div className="mr-3 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-r from-[#0057ff] to-[#00c6ff]">
-                <Zap className="h-3 w-3 text-white" />
-              </div>
-              Plataforma de Pagamentos Digital
-            </span>
-          </div>
+  const col1 = [
+    { src: "https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=900&auto=format&fit=crop", name: "Ava Carter", meta: "3.2M" },
+    { src: "https://images.unsplash.com/photo-1548142813-c348350df52b?q=80&w=900&auto=format&fit=crop", name: "Bruno Lee", meta: "1.1M" },
+    { src: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=900&auto=format&fit=crop", name: "Nina Gomez", meta: "890K" },
+    { src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=900&auto=format&fit=crop", name: "Rafa Mendes", meta: "2.0M" },
+  ];
 
-          {/* Título */}
-          <h1 className="text-5xl md:text-[3.2rem] font-bold mb-8 leading-tight text-left tracking-tight text-gray-100">
+  const col2 = [
+    { src: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?q=80&w=900&auto=format&fit=crop", name: "Jo Kim", meta: "7.5M" },
+    { src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=900&auto=format&fit=crop", name: "Sofia Martins", meta: "1.4M" }, // 🔄 substitui Isabel Matos
+    { src: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=900&auto=format&fit=crop", name: "Ian Park", meta: "2.8M" },
+    { src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=900&auto=format&fit=crop", name: "Daniel Costa", meta: "950K" }, // 🔄 substitui Gabi Souza
+  ];
+
+  return (
+    <section
+      className="
+        relative min-h-[100svh]
+        overflow-x-clip overflow-y-visible
+        lg:pb-[12svh]        /* reserva espaço pro bleed inferior */
+      "
+    >
+      {/* luzes de fundo */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_30%_20%,rgba(0,102,255,0.18),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_80%_60%,rgba(0,198,255,0.12),transparent_60%)]" />
+
+      {/* Texto */}
+      <div className="relative z-10 max-w-7xl mx-auto min-h-[100svh] grid grid-cols-1 lg:grid-cols-2 gap-10 items-center px-6">
+        <div className="flex flex-col pt-24 lg:pt-0">
+          <span className="inline-flex items-center rounded-full bg-white/10 border border-white/15 px-5 py-3 text-base font-medium text-white/90 shadow-sm mb-8 w-max">
+            <span className="mr-3 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-r from-[#0057ff] to-[#00c6ff]">
+              <Zap className="h-3 w-3 text-white" />
+            </span>
+            Plataforma de Pagamentos Digital
+          </span>
+
+          <h1 className="text-5xl md:text-[3.2rem] font-bold leading-tight tracking-tight text-white mb-6">
             Receba seus{" "}
             <span className="relative">
-              <span className="relative z-10 bg-gradient-to-r from-[#0057ff] to-[#00c6ff] bg-clip-text text-transparent">
-                Pagamentos
-              </span>
-              <div className="absolute -bottom-2 left-0 w-full h-3 bg-[#00c6ff]/20 -z-0 rounded-full"></div>
+              <span className="relative z-10 bg-gradient-to-r from-[#0057ff] to-[#00c6ff] bg-clip-text text-transparent">Pagamentos</span>
+              <span className="absolute -bottom-2 left-0 w-full h-3 bg-[#00c6ff]/20 rounded-full" />
             </span>{" "}
-            com segurança e segurança
+            com confiança e segurança
           </h1>
 
-          {/* Descrição */}
-          <p className="text-xl font-light text-gray-200 mb-10 max-w-xl text-left leading-relaxed">
-            Aceite PIX, cartão, boleto e cripto em uma única plataforma.  para sua conta.
-
-            <span className="font-semibold text-gray-50"> Relatórios em tempo real</span> e
-            <span className="font-semibold text-gray-50"> e saques rápidos</span> para potencializar seu negócio.
+          <p className="text-lg text-white/80 max-w-xl mb-8">
+            Aceite PIX, cartão, boleto e cripto numa única plataforma.{" "}
+            <span className="text-white">Relatórios em tempo real</span> e{" "}
+            <span className="text-white">saques rápidos</span>.
           </p>
 
-          {/* Vantagens */}
-          <div className="flex  flex-col gap-3 mb-10">
-            <div className="flex items-center">
-              <CheckCircle className="h-5 w-5 text-emerald-500 mr-3" />
-              <span className="text-gray-100">Pix imediato sem consulta ao CPF</span>
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="h-5 w-5 text-emerald-500 mr-3" />
-              <span className="text-gray-200">Integrações API</span>
-            </div>
-            {/* <div className="flex items-center">
-              <CheckCircle className="h-5 w-5 text-emerald-500 mr-3" />
-              <span className="text-gray-200">Segurança de nível bancário</span>
-            </div> */}
-          </div>
-
-          {/* Botões */}
           <div className="flex flex-col sm:flex-row gap-6 items-start">
-            <Button
-              size="lg"
-              className="rounded-xl px-6 py-2.5 text-sm font-semibold text-white
-                           bg-gradient-to-r from-[#0057ff] to-[#00c6ff]
-                           hover:from-[#0047d9] hover:to-[#00aee6]
-                           shadow-[0_6px_25px_-4px_rgba(0,102,255,0.6)] hover:shadow-[0_8px_30px_-4px_rgba(0,102,255,0.7)]
-                           transition-all duration-300 transform hover:-translate-y-0.5"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-
-            >
+            <Button className="rounded-xl px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#0057ff] to-[#00c6ff] hover:from-[#0047d9] hover:to-[#00aee6] shadow-[0_6px_25px_-4px_rgba(0,102,255,0.6)]">
               Começar Agora
             </Button>
-            <Button
-              size="lg"
-              className="rounded-xl px-6 py-2.5 text-sm font-semibold
-             border-2 border-white text-white
-             bg-transparent
-             transition-all duration-300
-             hover:text-white
-             hover:bg-gradient-to-r hover:from-[#0057ff] hover:to-[#00c6ff]
-             hover:shadow-[0_6px_25px_-4px_rgba(0,102,255,0.6)]
-             hover:-translate-y-0.5"
-            >
-              Ver Recursos
-              <ArrowRight className="ml-2 h-4 w-4" />
+            <Button className="rounded-xl px-6 py-2.5 text-sm font-semibold border-2 border-white text-white bg-transparent hover:bg-gradient-to-r hover:from-[#0057ff] hover:to-[#00c6ff] hover:shadow-[0_6px_25px_-4px_rgba(0,102,255,0.6)]">
+              Ver Recursos <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
 
-          {/* Selo de segurança */}
-          {/* <div className="flex items-center mt-12 pt-6 border-t border-gray-200">
-            <div className="flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 mr-4">
-              <Shield className="h-6 w-6 text-[#0057ff]" />
-            </div>
-            <p className="text-sm text-gray-600">
-              <span className="font-medium text-gray-900">Certificação PCI DSS Nível 1</span><br />
-              Seus dados protegidos com criptografia avançada
-            </p>
-          </div> */}
+          <div className="mt-8 space-y-2">
+            <div className="flex items-center"><CheckCircle className="h-5 w-5 text-emerald-500 mr-3" /><span className="text-white">Pix imediato sem consulta ao CPF</span></div>
+            <div className="flex items-center"><CheckCircle className="h-5 w-5 text-emerald-500 mr-3" /><span className="text-white/90">Integrações API</span></div>
+          </div>
         </div>
 
-        {/* Coluna Direita - Imagem Premium */}
-        <div className="relative flex justify-center md:justify-end">
-          <div className="relative">
-            <img
-              src={heroImg}
-              alt="Dashboard Premium da Plataforma de Pagamentos"
-              className="w-full max-w-lg rounded-2xl shadow-2xl border border-gray-200 relative z-10"
-            />
-
-            {/* Elementos flutuantes decorativos */}
-            <div className="absolute -top-6 -right-6 bg-white rounded-xl p-4 shadow-lg border border-gray-200 z-20">
-              <div className="flex items-center">
-                <div className="bg-emerald-100 rounded-full p-2 mr-3">
-                  <Clock className="h-4 w-4 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500">Saques em</p>
-                  <p className="font-semibold text-gray-900">até 5min</p>
-                </div>
-              </div>
+        {/* Mosaicos */}
+        <div className="mt-10 lg:mt-0">
+          {/* MOBILE/TABLET: no fluxo | DESKTOP: bleed controlado */}
+          <div
+            className="
+              relative h-[56vh] sm:h-[64vh]            lg:absolute lg:right-0 lg:top-[-12svh] lg:bottom-[-12svh]  /* bleed */
+              lg:h-auto lg:w-[52vw] xl:w-[46vw] 2xl:w-[44vw] lg:max-w-[780px]
+              lg:pr-8 pointer-events-none lg:pointer-events-auto
+            "
+          >
+            <div className="h-full grid grid-cols-2 gap-4 ml-10 md:gap-6">
+              <VerticalMarquee items={col1} direction="up" duration={22} className="h-full" />
+              <VerticalMarquee items={col2} direction="down" duration={26} className="h-full" />
             </div>
-
-            <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-lg border border-gray-200 z-20">
-              <div className="flex items-center">
-                <div className="bg-blue-100 rounded-full p-2 mr-3">
-                  <Zap className="h-4 w-4 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500">Transações</p>
-                  <p className="font-semibold text-gray-900">+99.9% uptime</p>
-                </div>
-              </div>
-            </div>
+            {/* glow */}
+            {/* <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_70%_at_80%_50%,rgba(0,102,255,0.25),transparent_60%)]" /> */}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
